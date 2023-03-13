@@ -43,7 +43,7 @@ class ListFragment: Fragment() {
         // Inflate the layout for this fragment
         val db = DatabaseInstance.getInstance(requireContext())
         val repository = UserRepository(db)
-        val factory = UserViewModelProvider(repository)
+        val factory = UserViewModelProvider(repository, requireContext())
         viewModel = ViewModelProvider(this, factory).get(UserViewModel::class.java)
         binding = FragmentListBinding.inflate(inflater, container, false)
         binding.rvList.layoutManager = LinearLayoutManager(requireContext())
@@ -81,7 +81,6 @@ class ListFragment: Fragment() {
 
             viewModel.usersFromDB.observe(viewLifecycleOwner, {
                 recyclerAdapter.differ.submitList(it)
-                it.forEach { println(it.login) }
             })
 
 
